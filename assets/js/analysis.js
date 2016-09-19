@@ -1,73 +1,54 @@
 
-
-var balanceSheet = JSON.parse(localStorage.getItem('data'));
+//Get Stock Ticker from Local Storage
 var input = localStorage.getItem('input');
-console.log(balanceSheet);
-console.log(input);
 
-
-
-	
 	var url1 = "https://services.last10k.com/v1/company/";
+	var url2 = "/balancesheet?formType=10-K&filingOrder=0";
 	var url3 = "/income?formType=10-K&filingOrder=0";
+	var url4 = "/cashflows?formType=10-K&filingOrder=0";
 	
+	//AJAX request for Stock Quote
 	$.ajax({
-		url: url1 + input + url3,
+		url: url1 + input + "/quote",
 		beforeSend: function(xhrObj){
 			// Request headers
-			xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key","a957da2095614930a4ba35bcc9671ca0" );
+			xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key","enter your key here" );
 		},
 		type: "GET",
 		// Request body
 		data: "{body}",
 	})
-	.done(function(incomeStatement) {
-		console.log(incomeStatement);
-		var COGS = incomeStatement.Data.CostOfGoodsSold;
-		var salesRevNet = incomeStatement.Data.SalesRevenueNet;
-		var rAndDev = incomeStatement.Data.ResearchAndDevelopmentExpense;
-		var mktgExp = incomeStatement.Data.SellingAndMarketingExpense;
-		var netIncome = incomeStatement.Data.NetIncomeLoss;
-		var genExp = incomeStatement.Data.GeneralAndAdministrativeExpense;
-		var divPerShare = incomeStatement.Data.CommonStockDividendsPerShareDeclared;
-		var grossProfit = incomeStatement.Data.GrossProfit;
-		var eps = incomeStatement.Data.EarningsPerShareBasic;
+	.done(function(quote) {
+	
+		console.log(quote);	
+		//Cash Flow Statement Variables
 		
-		var data = {
-    		labels: ["Revenue", "COGS", "Gen Exp", "Gross Profit", "Net Income"],
-   			datasets: [ {
-            label: "My First dataset",
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255,99,132,1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1,
-            data: [salesRevNet, COGS, genExp, grossProfit, netIncome ],
-        	}
-    		]
-		};
-
-		var ctx = document.getElementById("myChart8");
-		var myBarChart = new Chart(ctx, {
-   		type: 'bar',
-    	data: data,
-    	
-		});
+		var compName = quote.Name;
+		var mktCap = quote.MarketCapitalization;
+		var ebitda = quote.Ebitda;
+		var price = quote.LastTradePrice;
+		var peRatio = quote.PeRatio;
+		var volume = quote.Volume;
+		document.getElementById('para').innerHTML = compName;
+		document.getElementById('price').innerHTML = price;
 	})
 	
-//Balance Sheet Variables
+	
+	//AJAX request for Balance Sheet Info
+	$.ajax({
+		url: url1 + input + url2,
+		beforeSend: function(xhrObj){
+			// Request headers
+			xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key","enter your key here" );
+		},
+		type: "GET",
+		// Request body
+		data: "{body}",
+	})
+	.done(function(balanceSheet) {
+	
+		console.log(balanceSheet);	
+		//Balance Sheet Variables
 		var company = balanceSheet.Company;
 		var acctPay = balanceSheet.Data.AccountsPayableCurrent;
 		var acctRec = balanceSheet.Data.AccountsReceivableNetCurrent;
@@ -82,10 +63,7 @@ console.log(input);
 		var ltDebtCurr = balanceSheet.Data.LongTermDebtCurrent;
 		var ltDebtNonCurr = balanceSheet.Data.LongTermDebtNoncurrent;
 		var liab = balanceSheet.Data.Liabilities;
-
 		
-
-
 		
 		var data1 = {
     		labels: [
@@ -113,9 +91,123 @@ console.log(input);
   		type: 'doughnut',
     	data: data1,
 		});
+	})
+	
+	//AJAX request for Income Statement Info
+	$.ajax({
+		url: url1 + input + url3,
+		beforeSend: function(xhrObj){
+			// Request headers
+			xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key","enter your key here" );
+		},
+		type: "GET",
+		// Request body
+		data: "{body}",
+	})
+	.done(function(incomeStatement) {
+	
+		console.log(incomeStatement);	
+		//Income Statement Variables
+		var COGS = incomeStatement.Data.CostOfGoodsSold;
+		var salesRevNet = incomeStatement.Data.SalesRevenueNet;
+		var rAndDev = incomeStatement.Data.ResearchAndDevelopmentExpense;
+		var mktgExp = incomeStatement.Data.SellingAndMarketingExpense;
+		var netIncome = incomeStatement.Data.NetIncomeLoss;
+		var genExp = incomeStatement.Data.GeneralAndAdministrativeExpense;
+		var divPerShare = incomeStatement.Data.CommonStockDividendsPerShareDeclared;
+		var grossProfit = incomeStatement.Data.GrossProfit;
+		var eps = incomeStatement.Data.EarningsPerShareBasic;
 		
 		
 		
+		var data = {
+    	labels: ["Revenue", "COGS", "General Exp.", "Marketing Exp.", "R&D", "Gross Profit", "Net Income"],
+    	datasets: [
+        {
+            label: "My First dataset",
+            fill: false,
+            lineTension: 0.1,
+            backgroundColor: "rgba(75,192,192,0.4)",
+            borderColor: "rgba(75,192,192,1)",
+            borderCapStyle: 'butt',
+            borderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: 'miter',
+            pointBorderColor: "rgba(75,192,192,1)",
+            pointBackgroundColor: "#fff",
+            pointBorderWidth: 1,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: "rgba(75,192,192,1)",
+            pointHoverBorderColor: "rgba(220,220,220,1)",
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10,
+            data: [salesRevNet, COGS, genExp, mktgExp, rAndDev, grossProfit, netIncome],
+            spanGaps: false,
+        }
+    ]
+};
 		
+		var ctx = document.getElementById("myChart8");
+		var myLineChart = new Chart(ctx, {
+   			type: 'line',
+    		data: data,
+		});
+
+	})
+	
+	//AJAX request for Statement of Cash Flows
+	$.ajax({
+		url: url1 + input + url4,
+		beforeSend: function(xhrObj){
+			// Request headers
+			xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key","b6bad9006c254c91bec10dc0cfc5ed99" );
+		},
+		type: "GET",
+		// Request body
+		data: "{body}",
+	})
+	.done(function(stmtCashFlows) {
+	
+		console.log(stmtCashFlows);	
+		//Cash Flow Statement Variables
+		var operating = stmtCashFlows.Data.NetCashProvidedByUsedInOperatingActivitiesContinuingOperations;
+		var financing = stmtCashFlows.Data.NetCashProvidedByUsedInFinancingActivitiesContinuingOperations;
+		var investing = stmtCashFlows.Data.NetCashProvidedByUsedInInvestingActivitiesContinuingOperations;
+		
+		var data = {
+    		labels: ["Operating", "Financing", "Investing"],
+   			datasets: [ {
+            label: "My First dataset",
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1,
+            data: [operating, financing, investing],
+        	}
+    		]
+		};
+
+		var ctx = document.getElementById("myChart9");
+		var myBarChart = new Chart(ctx, {
+   		type: 'bar',
+    	data: data,
+		});
+	})
+	
+	
 
 

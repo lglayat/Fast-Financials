@@ -5,7 +5,6 @@
 */
 
 (function($) {
-
 	// Breakpoints.
 		skel.breakpoints({
 			xlarge:	'(max-width: 1680px)',
@@ -14,21 +13,16 @@
 			small:	'(max-width: 736px)',
 			xsmall:	'(max-width: 480px)'
 		});
-
 	$(function() {
-
 		var	$window = $(window),
 			$body = $('body');
-
 		// Disable animations/transitions until the page has loaded.
 			$body.addClass('is-loading');
-
 			$window.on('load', function() {
 				window.setTimeout(function() {
 					$body.removeClass('is-loading');
 				}, 100);
 			});
-
 		// Prioritize "important" elements on medium.
 			skel.on('+medium -medium', function() {
 				$.prioritize(
@@ -36,9 +30,7 @@
 					skel.breakpoint('medium').active
 				);
 			});
-
 	// Off-Canvas Navigation.
-
 		// Navigation Panel.
 			$(
 				'<div id="navPanel">' +
@@ -55,53 +47,34 @@
 					resetForms: true,
 					side: 'left'
 				});
-
 		// Fix: Remove transitions on WP<10 (poor/buggy performance).
 			if (skel.vars.os == 'wp' && skel.vars.osVersion < 10)
 				$('#navPanel')
 					.css('transition', 'none');
-
 	});
-
 })(jQuery);
 
 
-function othername() {
+
+
+//Search Bar
+function search() {
 	var input = document.getElementById("userInput").value;
 	localStorage.setItem("input", input);
-	var url1 = "https://services.last10k.com/v1/company/";
-	var url3 = "/balancesheet?formType=10-K&filingOrder=0";
-	
-	$.ajax({
-		url: url1 + input + url3,
-		beforeSend: function(xhrObj){
-			// Request headers
-			xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key","a957da2095614930a4ba35bcc9671ca0" );
-		},
-		type: "GET",
-		// Request body
-		data: "{body}",
-	})
-	.done(function(data) {
-		console.log(data);
-		localStorage.setItem("data", JSON.stringify(data));
-		window.location.href = "analysis.html";
-	
-
-	})
-	
-
+	window.location.href = "analysis.html";
 }
 
-/* Charts */
+
+
+
+/* Example Charts */
 var data1 = {
     labels: [
         "Assets",
         "Liabilities",
         "Equity"
     ],
-    datasets: [
-        {
+    datasets: [{
             data: [10000, 6000, 4000],
             backgroundColor: [
                 "#FF6384",
