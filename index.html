@@ -1,0 +1,103 @@
+<!DOCTYPE HTML>
+<!--
+	Theory by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html>
+	<head>
+		<title>Homepage</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body>
+		<!-- Header -->
+			<header id="header">
+				<div class="inner">
+					<a href="index.html" class="logo">Home</a>
+					<nav id="nav">
+						<a href="generic.html">About</a>
+						<a href="elements.html">FAQ</a>
+					</nav>
+					<a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a>
+				</div>
+			</header>
+
+		<!-- Banner -->
+			<section id="banner">
+				<h1>Welcome to StockPicker.com</h1>
+				<p>A Free Financial Statement Analysis Tool</p>
+			</section>
+
+		<!-- One -->
+			<section id="one" class="wrapper">
+				<div class="inner">
+					<header> 
+						<h2  align="center"> Simply Enter A Stock Ticker Here</h2>
+					</header>
+				
+					<div id="wrapper1" style="text-align: center;style="display: inline-block">    	
+						<form  id="form" onsubmit="return false;">
+							<input type="text" id="userInput" />
+							<input  type="submit" onclick="othername();" />
+						</form>
+					</div>
+				
+				</div>
+			</section>
+
+		<!-- Two -->
+			<section id="two" class="wrapper style1 special">
+				<div class="inner">
+					<header>
+						<h2>Financial Statements. Visualized.</h2>
+						<p>Most up-to-date 10-k data from the SEC</p>
+					</header>
+					
+					<div class="flex flex-4">
+					
+						<div class="Chart1">
+							<canvas id="myChart1" width="300" height="200"></canvas>
+							<h3>Balance Sheet</h3>
+							<p>Corporate Structure | Big Picture</p>
+						</div>
+						
+						<div class="Chart2">
+							<canvas id="myChart2" width="300" height="200"></canvas>
+							<h3>Income Statement</h3>
+							<p>Profitability | Efficiency | Performance</p>
+						</div>
+						
+						<div class="Chart3">
+							<canvas id="myChart3" width="300" height="200"></canvas>
+							<h3>Cash Flows</h3>
+							<p>Allocation | Operational Analysis</p>
+						</div>
+						
+					</div>
+					
+				</div>
+			</section>
+			
+		<!-- Footer -->
+			<footer id="footer">
+				<div class="inner">
+				<a> Created by Luke Glayat <a/>
+					<div class="flex">
+						<div class="copyright">
+							&copy; Untitled. Design: <a href="https://templated.co">TEMPLATED</a>
+						</div>
+					</div>
+				</div>
+			</footer>
+			
+		<!-- Scripts -->
+			<script src="assets/js/Chart.min.js"></script>
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
