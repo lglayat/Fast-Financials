@@ -1,6 +1,25 @@
-
 //Get Stock Ticker from Local Storage
 var input = localStorage.getItem('input');
+
+
+
+
+angular.module('myApp', [])
+	.controller('dummy', ['$scope', '$sce', function ($scope, $sce) {
+
+	$scope.url = $sce.trustAsResourceUrl('http://platform.last10k.com/filings/annotationchart?ticker=' + input);
+	
+	$scope.url2 = $sce.trustAsResourceUrl('http://platform.last10k.com/filings?ticker=' + input);
+	
+	
+	
+}]);	
+
+
+
+
+
+src="http://platform.last10k.com/filings/annotationchart?ticker="
 
 	var url1 = "https://services.last10k.com/v1/company/";
 	var url2 = "/balancesheet?formType=10-K&filingOrder=0";
@@ -12,7 +31,7 @@ var input = localStorage.getItem('input');
 		url: url1 + input + "/quote",
 		beforeSend: function(xhrObj){
 			// Request headers
-			xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key","enter your key here" );
+			xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key","b6bad9006c254c91bec10dc0cfc5ed99" );
 		},
 		type: "GET",
 		// Request body
@@ -39,7 +58,7 @@ var input = localStorage.getItem('input');
 		url: url1 + input + url2,
 		beforeSend: function(xhrObj){
 			// Request headers
-			xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key","enter your key here" );
+			xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key","a957da2095614930a4ba35bcc9671ca0" );
 		},
 		type: "GET",
 		// Request body
@@ -92,13 +111,17 @@ var input = localStorage.getItem('input');
     	data: data1,
 		});
 	})
+
+
+
+
 	
 	//AJAX request for Income Statement Info
 	$.ajax({
 		url: url1 + input + url3,
 		beforeSend: function(xhrObj){
 			// Request headers
-			xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key","enter your key here" );
+			xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key","3a5e758def25400b86cef81739db211d" );
 		},
 		type: "GET",
 		// Request body
@@ -124,7 +147,7 @@ var input = localStorage.getItem('input');
     	labels: ["Revenue", "COGS", "General Exp.", "Marketing Exp.", "R&D", "Gross Profit", "Net Income"],
     	datasets: [
         {
-            label: "My First dataset",
+            label: "Income Statement",
             fill: false,
             lineTension: 0.1,
             backgroundColor: "rgba(75,192,192,0.4)",
@@ -155,13 +178,19 @@ var input = localStorage.getItem('input');
 		});
 
 	})
+
+
+
+
+	/////////////////////////////////////////////
+	//AJAX request for Statement of Cash Flows //
+	/////////////////////////////////////////////
 	
-	//AJAX request for Statement of Cash Flows
 	$.ajax({
 		url: url1 + input + url4,
 		beforeSend: function(xhrObj){
 			// Request headers
-			xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key","b6bad9006c254c91bec10dc0cfc5ed99" );
+			xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key","549ae5069295445fb1b6b4ca55465a60" );
 		},
 		type: "GET",
 		// Request body
@@ -171,6 +200,7 @@ var input = localStorage.getItem('input');
 	
 		console.log(stmtCashFlows);	
 		//Cash Flow Statement Variables
+		
 		var operating = stmtCashFlows.Data.NetCashProvidedByUsedInOperatingActivitiesContinuingOperations;
 		var financing = stmtCashFlows.Data.NetCashProvidedByUsedInFinancingActivitiesContinuingOperations;
 		var investing = stmtCashFlows.Data.NetCashProvidedByUsedInInvestingActivitiesContinuingOperations;
@@ -178,7 +208,7 @@ var input = localStorage.getItem('input');
 		var data = {
     		labels: ["Operating", "Financing", "Investing"],
    			datasets: [ {
-            label: "My First dataset",
+            label: "Statement of Cash Flows",
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
@@ -207,7 +237,3 @@ var input = localStorage.getItem('input');
     	data: data,
 		});
 	})
-	
-	
-
-
