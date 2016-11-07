@@ -132,7 +132,7 @@ src="http://platform.last10k.com/filings/annotationchart?ticker="
 		console.log(incomeStatement);	
 		//Income Statement Variables
 		var COGS = incomeStatement.Data.CostOfGoodsSold;
-		var salesRevNet = incomeStatement.Data.SalesRevenueNet;
+		var salesRevNet = incomeStatement.Data.Revenues;
 		var rAndDev = incomeStatement.Data.ResearchAndDevelopmentExpense;
 		var mktgExp = incomeStatement.Data.SellingAndMarketingExpense;
 		var netIncome = incomeStatement.Data.NetIncomeLoss;
@@ -144,7 +144,7 @@ src="http://platform.last10k.com/filings/annotationchart?ticker="
 		
 		
 		var data = {
-    	labels: ["Revenue", "COGS", "General Exp.", "Marketing Exp.", "R&D", "Gross Profit", "Net Income"],
+    	labels: ["Revenue", "COGS", "Gross Profit", "Net Income"],
     	datasets: [
         {
             label: "Income Statement",
@@ -165,7 +165,7 @@ src="http://platform.last10k.com/filings/annotationchart?ticker="
             pointHoverBorderWidth: 2,
             pointRadius: 1,
             pointHitRadius: 10,
-            data: [salesRevNet, COGS, genExp, mktgExp, rAndDev, grossProfit, netIncome],
+            data: [salesRevNet, COGS, grossProfit, netIncome],
             spanGaps: false,
         }
     ]
