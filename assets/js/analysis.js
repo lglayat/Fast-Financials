@@ -3,87 +3,89 @@ var input = localStorage.getItem('input');
 
 
 
-
+//Use ticker for Widgets 
 angular.module('myApp', [])
 	.controller('dummy', ['$scope', '$sce', function ($scope, $sce) {
 
 	$scope.url = $sce.trustAsResourceUrl('http://platform.last10k.com/filings/annotationchart?ticker=' + input);
 	
 	$scope.url2 = $sce.trustAsResourceUrl('http://platform.last10k.com/filings?ticker=' + input);
-	
-	
-	
 }]);	
 
 
 
+//src="http://platform.last10k.com/filings/annotationchart?ticker="
 
 
-src="http://platform.last10k.com/filings/annotationchart?ticker="
-
-	var url1 = "https://services.last10k.com/v1/company/";
-	var url2 = "/balancesheet?formType=10-K&filingOrder=0";
-	var url3 = "/income?formType=10-K&filingOrder=0";
-	var url4 = "/cashflows?formType=10-K&filingOrder=0";
+//Set up url variables for GET requests
+var url1 = "https://services.last10k.com/v1/company/";
+var url2 = "/balancesheet?formType=10-K&filingOrder=0";
+var url3 = "/income?formType=10-K&filingOrder=0";
+var url4 = "/cashflows?formType=10-K&filingOrder=0";
 	
-	//AJAX request for Stock Quote
-	$.ajax({
-		url: url1 + input + "/quote",
-		beforeSend: function(xhrObj){
-			// Request headers
-			xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key","b6bad9006c254c91bec10dc0cfc5ed99" );
-		},
-		type: "GET",
-		// Request body
-		data: "{body}",
-	})
-	.done(function(quote) {
-	
-		console.log(quote);	
-		//Cash Flow Statement Variables
+
+/////////////////////////////////////////////
+//   AJAX request for Monthly Stock Data   //
+/////////////////////////////////////////////
+$.ajax({
+	url: url1 + input + "/quote",
+	beforeSend: function(xhrObj){
+		// Request headers
+		xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key","b6bad9006c254c91bec10dc0cfc5ed99" );
+	},
+	type: "GET",
+	// Request body
+	data: "{body}",
+})
+.done(function(quote) {
+	console.log(quote);	
 		
-		var compName = quote.Name;
-		var mktCap = quote.MarketCapitalization;
-		var ebitda = quote.Ebitda;
-		var price = quote.LastTradePrice;
-		var peRatio = quote.PeRatio;
-		var volume = quote.Volume;
-		document.getElementById('para').innerHTML = compName;
-		document.getElementById('price').innerHTML = price;
+	// Company Variables
+	var compName = quote.Name;
+	var mktCap = quote.MarketCapitalization;
+	var ebitda = quote.Ebitda;
+	var price = quote.LastTradePrice;
+	var peRatio = quote.PeRatio;
+	var volume = quote.Volume;
+	document.getElementById('para').innerHTML = compName;
+	document.getElementById('price').innerHTML = price;
+	
 	})
 	
 	
-	//AJAX request for Balance Sheet Info
-	$.ajax({
-		url: url1 + input + url2,
-		beforeSend: function(xhrObj){
-			// Request headers
-			xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key","a957da2095614930a4ba35bcc9671ca0" );
-		},
-		type: "GET",
-		// Request body
-		data: "{body}",
-	})
-	.done(function(balanceSheet) {
+//AJAX request for Balance Sheet Info
+$.ajax({
+	url: url1 + input + url2,
+	beforeSend: function(xhrObj){
+		// Request headers
+		xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key","a957da2095614930a4ba35bcc9671ca0" );
+	},
+	type: "GET",
+	// Request body
+	data: "{body}",
+})
+.done(function(balanceSheet) {
 	
-		console.log(balanceSheet);	
-		//Balance Sheet Variables
-		var company = balanceSheet.Company;
-		var acctPay = balanceSheet.Data.AccountsPayableCurrent;
-		var acctRec = balanceSheet.Data.AccountsReceivableNetCurrent;
-		var currLiab = balanceSheet.Data.AccruedLiabilitiesCurrent;
-		var assets = balanceSheet.Data.Assets;
-		var currAss = balanceSheet.Data.AssetsCurrent;
-		var cashAndEquiv = balanceSheet.Data.CashAndCashEquivalentsAtCarryingValue;
-		var APIC = balanceSheet.Data.CommonStocksIncludingAdditionalPaidInCapital;
-		var propPlantEquip = balanceSheet.Data.PropertyPlantAndEquipmentNet;
-		var retEarn = balanceSheet.Data.RetainedEarningsAccumulatedDeficit;
-		var equity = balanceSheet.Data.StockholdersEquity;
-		var ltDebtCurr = balanceSheet.Data.LongTermDebtCurrent;
-		var ltDebtNonCurr = balanceSheet.Data.LongTermDebtNoncurrent;
+	//Balance Sheet Variables
+	console.log(balanceSheet);	
+	var company = balanceSheet.Company;
+	var acctPay = balanceSheet.Data.AccountsPayableCurrent;
+	var acctRec = balanceSheet.Data.AccountsReceivableNetCurrent;
+	var currLiab = balanceSheet.Data.AccruedLiabilitiesCurrent;
+	var assets = balanceSheet.Data.Assets;
+	var currAss = balanceSheet.Data.AssetsCurrent;
+	var cashAndEquiv = balanceSheet.Data.CashAndCashEquivalentsAtCarryingValue;
+	var APIC = balanceSheet.Data.CommonStocksIncludingAdditionalPaidInCapital;
+	var propPlantEquip = balanceSheet.Data.PropertyPlantAndEquipmentNet;
+	var retEarn = balanceSheet.Data.RetainedEarningsAccumulatedDeficit;
+	var equity = balanceSheet.Data.StockholdersEquity;
+	var ltDebtCurr = balanceSheet.Data.LongTermDebtCurrent;
+	var ltDebtNonCurr = balanceSheet.Data.LongTermDebtNoncurrent;
+	if(balanceSheet.Data.Liabilities != null){
 		var liab = balanceSheet.Data.Liabilities;
+	}
 		
-		
+		//Generate Chart for Balance Sheet
 		var data1 = {
     		labels: [
        			 "Assets",
@@ -116,7 +118,9 @@ src="http://platform.last10k.com/filings/annotationchart?ticker="
 
 
 	
-	//AJAX request for Income Statement Info
+//////////////////////////////////////////
+//  AJAX request for Income Statement   //
+//////////////////////////////////////////
 	$.ajax({
 		url: url1 + input + url3,
 		beforeSend: function(xhrObj){
@@ -129,10 +133,8 @@ src="http://platform.last10k.com/filings/annotationchart?ticker="
 	})
 	.done(function(incomeStatement) {
 	
-		console.log(incomeStatement);	
 		//Income Statement Variables
-		var COGS = incomeStatement.Data.CostOfGoodsSold;
-		var salesRevNet = incomeStatement.Data.Revenues;
+		console.log(incomeStatement);	
 		var rAndDev = incomeStatement.Data.ResearchAndDevelopmentExpense;
 		var mktgExp = incomeStatement.Data.SellingAndMarketingExpense;
 		var netIncome = incomeStatement.Data.NetIncomeLoss;
@@ -140,11 +142,24 @@ src="http://platform.last10k.com/filings/annotationchart?ticker="
 		var divPerShare = incomeStatement.Data.CommonStockDividendsPerShareDeclared;
 		var grossProfit = incomeStatement.Data.GrossProfit;
 		var eps = incomeStatement.Data.EarningsPerShareBasic;
+		if(incomeStatement.Data.Revenues != null ){
+			var salesRevNet = incomeStatement.Data.Revenues;
+		}
+		else{
+			var salesRevNet = incomeStatement.Data.SalesRevenueNet;
+		}
+		
+		if(incomeStatement.Data.CostOfGoodsSold != null ){
+			var COGS = incomeStatement.Data.CostOfGoodsSold;
+		}
+		else if(incomeStatement.Data.CostsAndExpenses != null){
+			var COGS = incomeStatement.Data.CostsAndExpenses;
+		} 
 		
 		
-		
+		//Generate Chart for Income Statement
 		var data = {
-    	labels: ["Revenue", "COGS", "Gross Profit", "Net Income"],
+    	labels: ["Revenue", "COGS", "Net Income"],
     	datasets: [
         {
             label: "Income Statement",
@@ -165,7 +180,7 @@ src="http://platform.last10k.com/filings/annotationchart?ticker="
             pointHoverBorderWidth: 2,
             pointRadius: 1,
             pointHitRadius: 10,
-            data: [salesRevNet, COGS, grossProfit, netIncome],
+            data: [salesRevNet, COGS, netIncome],
             spanGaps: false,
         }
     ]
@@ -198,13 +213,21 @@ src="http://platform.last10k.com/filings/annotationchart?ticker="
 	})
 	.done(function(stmtCashFlows) {
 	
-		console.log(stmtCashFlows);	
 		//Cash Flow Statement Variables
+		console.log(stmtCashFlows);	
+		if(stmtCashFlows.Data.NetCashProvidedByUsedInFinancingActivitiesContinuingOperations != null){
+			var financing = stmtCashFlows.Data.NetCashProvidedByUsedInFinancingActivitiesContinuingOperations;
+			var operating = stmtCashFlows.Data.NetCashProvidedByUsedInOperatingActivitiesContinuingOperations;
+			var investing = stmtCashFlows.Data.NetCashProvidedByUsedInInvestingActivitiesContinuingOperations;
+
+		}
+		else{
+			var financing = stmtCashFlows.Data.NetCashProvidedByUsedInFinancingActivities;
+			var operating = stmtCashFlows.Data.NetCashProvidedByUsedInOperatingActivities;
+			var investing = stmtCashFlows.Data.NetCashProvidedByUsedInInvestingActivities;
+		}
 		
-		var operating = stmtCashFlows.Data.NetCashProvidedByUsedInOperatingActivitiesContinuingOperations;
-		var financing = stmtCashFlows.Data.NetCashProvidedByUsedInFinancingActivitiesContinuingOperations;
-		var investing = stmtCashFlows.Data.NetCashProvidedByUsedInInvestingActivitiesContinuingOperations;
-		
+		//Generate Chart for Stmt of Cash Flows
 		var data = {
     		labels: ["Operating", "Financing", "Investing"],
    			datasets: [ {
