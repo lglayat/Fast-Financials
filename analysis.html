@@ -10,57 +10,121 @@
 	<body>
 	<div class="page-wrap">
   
-  
+  <!-- Header Wrapper------------------------------------------------------------------>
 		<header class="header-basic">
 			<div class="header-limiter">
-				<h1><a href="index.html">Fast Financials</a></h1>
+				<h1><a href="#">Fast Financials</a></h1>
 				<nav>
-					<a href="index.html">Home</a>
+					<a href="#">Home</a>
 					<a href="#">About</a>
 					<a href="#">Faq</a>
 				</nav>
 			</div>
 		</header>
+	<!--Header Wrapper Close----------------------------------------------------------->
 	
 	
 	
+	<!-- Big Title Wrapper ---------------------------------------------------------->
 	
 	 <div id="MyEdit"  style="text-align: center">
 		<p id="para"></p>
 		<p id="tPrice">          Trading at: </p>
 		<p id="price"></p> 
-	</div>
+		
+		<div>
+		
+		<table style="width:70%" align="center">
+
+			<tr>
+			  <td>Daily High</td>
+			  <td id="high"></td>
+			  <td>EPS</td>
+			  <td id="eps"></td>
+			</tr>
+			<tr>
+			 <td>Daily Low</td>
+			 <td id="low"></td>
+			 <td>P/E Ratio</td>
+			 <td id="peRatio"></td>
+			</tr>
+			<tr>
+			 <td>Close</td>
+			 <td id="close"></td>
+			 <td>PEG Ratio</td>
+			 <td id="pegRatio"></td>
+			</tr>
+			<tr>
+			 <td>Volume</td>
+			 <td id="volume"></td>
+			 <td>Book Value</td>
+			 <td id="bookValue"></td>
+			</tr>
+		</table>
+		
+		</div>
 	
+		
+				<p > Annual SEC Filing</p> 
+
+	</div>
+	<!-- Big Title Wrapper ----------------------------------------------------------->
+	
+	
+	
+	<!-- div for 6 charts wrapper ------------------------------------------------------>
 	<div class="section group">
 		<div class="col span_1_of_3">
+			<p id="title"> Balance Sheet Breakdown </p>
 			<canvas id="myChart7"></canvas> 
+	
+			<p id="title"> Assets Breakdown </p>
+			<canvas id="myChart10"></canvas> 
 		</div>
+		
 		<div class="col span_1_of_3">
+			<p id="title"> Income Statement Breakdown </p>
 			<canvas id="myChart8"></canvas> 
+		
+			<p id="title"> Historical Income Breakdown </p>
+			<canvas id="myChart11"></canvas> 
 		</div>
-			<div class="col span_1_of_3">
+		
+		<div class="col span_1_of_3">
+			<p id="title"> Cash Flow Breakdown </p>
 			<canvas id="myChart9"></canvas> 
+			
+			<p id="title"> Expense Breakdown</p>
+			<canvas id="myChart12"></canvas> 
+
 		</div>
 	</div>
+	<!-- close chart wrapper ------------------------------------------------------>
 	
-	<!-- div for annotation chart and filings using ANGULAR -->
+	
+	
+	
+	<!-- div for annotation chart and filings using ANGULAR --------------------------->
+	<div ng-app="myApp" ng-controller="dummy" margin-left:"50%">
+		
+		<p id="title"> Historical Stock Price With Reports </p>
 
-	<div ng-app="myApp" ng-controller="dummy">
-		
-		
-			<iframe id="priceChart" ng-src="{{url}}"  width="80%" 						height="375" scrolling="no" 		frameborder="0"></iframe>
-		
-		
+		<div id="statementRelease"  >
+		<!-- Chart Widget -->
+		<iframe id="priceChart" ng-src="{{url}}"  scrolling="no" frameborder="0"></iframe>
+		<div>
+		<!-- Link to download files -->
 		<iframe ng-src="{{url2}}" width="100%" height="100"  scrolling="no" frameborder="0"></iframe>
+	</div>
+	<!-- Widgets wrapper close------------------------------------------------------->
+
 
 	</div>
-	
+	<!-- Page-Wrap-Close ------------------------------------------------------>
 
 
-	</div>
-		<!-- Page-Wrap-Close -->
 		
-		
+	<!-- Footer Wrapper -------------------------------------------------------------->	
 		<footer class="site-footer">
   			<p class="footer-company-motto">Financial Statements. Visualized.</p>
 			<p class="footer-links">
@@ -70,7 +134,7 @@
 			</p>
 			<p class="footer-company-name">Created by Luke Glayat</p>
 		</footer>
-
+	<!-- Footer Wrapper Close ----------------------------------------------------------->
 		
 		
 		<!-- Scripts -->
