@@ -82,60 +82,107 @@ angular.module('myApp', [])
 		url: url1,
 		type: "GET",
 		// Request body
-
 	})
 	.done(function(quote1) {
 		console.log(quote1);
 		
+	
+		//Store the 2016 data I need in resultsArray[]
+		var resultsArray = 	quote1.result.rows[0];	
 		
+		//These are for storing historical Income
+		var resultsArray2 = quote1.result.rows[1];
+		var myArray2 = ["netincome"];
+		var resultsArray3 = quote1.result.rows[2];
+		var myArray3 = ["netincome"];
+		var resultsArray4 = quote1.result.rows[3];
+		var myArray4 = ["netincome"];
+
+		
+		
+		
+		//Array which holds names of data I need
+		var myArray = ["companyname","primaryexchange" ,"fiscalyear" ,"capitalexpenditures","cashfromfinancingactivities","cashfrominvestingactivities","cashfromoperatingactivities", "ebit","costofrevenue","grossprofit","incomebeforetaxes","netincome","researchdevelopmentexpense","totalrevenue","sellinggeneraladministrativeexpenses","commonstock","cashandcashequivalents","cashcashequivalentsandshortterminvestments","goodwill","intangibleassets","inventoriesnet","otherassets","othercurrentassets","othercurrentliabilities","otherliabilities","propertyplantequipmentnet", "retainedearnings","totalassets","totalcurrentassets","totalcurrentliabilities","totalliabilities","totallongtermdebt","totalreceivablesnet","totalshorttermdebt" ,  "totalstockholdersequity"];
+					
+		//Iterate through resultsArray, replacing the desired values names with values 
+		for(var i = 0; i < resultsArray.values.length ; i++) {
+    		var index = myArray.indexOf(resultsArray.values[i].field);
+     		if(index != -1){
+     			myArray[index] = resultsArray.values[i].value;
+     		}
+    	 }
+    	 
+    	 console.log(myArray);
+    	 //These for loops are only for getting the "net income" value for the historical income chart
+    	 for(var i = 0; i < resultsArray2.values.length ; i++) {
+    		var index = myArray2.indexOf(resultsArray2.values[i].field);
+     		if(index != -1){
+     			myArray2[index] = resultsArray2.values[i].value;
+     		}
+    	 }
+    	 for(var i = 0; i < resultsArray3.values.length ; i++) {
+    		var index = myArray3.indexOf(resultsArray3.values[i].field);
+     		if(index != -1){
+     			myArray3[index] = resultsArray3.values[i].value;
+     		}
+    	 }
+    	 for(var i = 0; i < resultsArray4.values.length ; i++) {
+    		var index = myArray4.indexOf(resultsArray4.values[i].field);
+     		if(index != -1){
+     			myArray4[index] = resultsArray4.values[i].value;
+     		}
+    	 }
+    	 
+    	
+	
 		//    GENERAL INFO    //
-		var companyName = quote1.result.rows[0].values[1].value;
-		var primaryExchange = quote1.result.rows[0].values[3].value;
-		var fiscalYear = quote1.result.rows[0].values[18].value;
+		var companyName = myArray[0];
+		var primaryExchange = myArray[1];
+		var fiscalYear = myArray[2];
 	
 		
 		// BALANCE SHEET DATA //
-		var totalAssets =quote1.result.rows[0].values[58].value;
-		var totalCurrentAssets = quote1.result.rows[0].values[59].value;
-		var inventory = quote1.result.rows[0].values[52].value;
-		var goodwill = quote1.result.rows[0].values[50].value;
-		var intangibleAssets = quote1.result.rows[0].values[51].value;
-		var cash = quote1.result.rows[0].values[48].value;
-		var shortTermInv = quote1.result.rows[0].values[49].value;
-		var otherAssets = quote1.result.rows[0].values[53].value;
-		var propertyEquip = quote1.result.rows[0].values[56].value;
+		var totalAssets = myArray[27];
+		var totalCurrentAssets = myArray[28];
+		var inventory = myArray[20];
+		var goodwill = myArray[18];
+		var intangibleAssets = myArray[19];
+		var cash = myArray[16];
+		var shortTermInv = myArray[17];
+		var otherAssets = myArray[21];
+		var propertyEquip = myArray[25];
 		/*-------------------------------------------------------------*/
-		var totalLiabilities = quote1.result.rows[0].values[61].value;
-		var totalLTDebt = quote1.result.rows[0].values[62].value;
-		var totalCurrentLiabilities = quote1.result.rows[0].values[60].value;
+		var totalLiabilities = myArray[30];
+		var totalLTDebt = myArray[31];
+		var totalCurrentLiabilities = myArray[29];
 		/*-------------------------------------------------------------*/
-		var totalReceivablesNet = quote1.result.rows[0].values[63].value;
-		var totalStockholdersEquity = quote1.result.rows[0].values[65].value;
+		var totalReceivablesNet = myArray[32];
+		var totalStockholdersEquity = myArray[34];
 
-		
 		// INCOME STATEMENT DATA //
-		var totalRevenue = quote1.result.rows[0].values[45].value;
-		var cogs = quote1.result.rows[0].values[39].value;
-		var ebit = quote1.result.rows[0].values[38].value;
-		var grossProfit = quote1.result.rows[0].values[40].value;
-		var incomeBeforeTaxes = quote1.result.rows[0].values[41].value;
-		var netIncome = quote1.result.rows[0].values[42].value;	
+		var totalRevenue = myArray[13];
+		var cogs = myArray[8];
+		var ebit = myArray[7];
+		var grossProfit = myArray[9];
+		var incomeBeforeTaxes = myArray[10];
+		var netIncome = myArray[11];
 		/*---------------------------------------------------------*/
-		var capEx = quote1.result.rows[0].values[29].value;
-		var rAndD = quote1.result.rows[0].values[44].value;
-		var sellingAndAdminExp = quote1.result.rows[0].values[46].value;
-		
+		var capEx = myArray[3];
+		var rAndD = myArray[12];
+		var sellingAndAdminExp = myArray[14];
 		
 		//   CASH FLOW DATA    //
-		var financing = quote1.result.rows[0].values[30].value;
-		var investing = quote1.result.rows[0].values[31].value;
-		var operating = quote1.result.rows[0].values[32].value;
+		var financing = myArray[4];
+		var investing = myArray[5];
+		var operating = myArray[6];
+
+ 		//  HISTORICAL DATA //
+ 		var income15 = myArray2[0];
+ 		var income14 = myArray3[0];
+ 		var income13 = myArray4[0];
 
 
-		// HISTORICAL DATA //
-		var income15 = quote1.result.rows[1].values[42].value;
-		var income14 = quote1.result.rows[2].values[42].value;
-		var income13 =quote1.result.rows[3].values[42].value;
+  
 
 		//     HEADER DATA     //
 		document.getElementById('para').innerHTML = companyName + " ";
@@ -208,7 +255,7 @@ angular.module('myApp', [])
    		type: 'bar',
     	data: data2,
 		});
-		
+	
 		//Balance Sheet Chart
 		var data3 = {
     		labels: ["Assets", "Liabilities", "Equity"  ],
@@ -222,7 +269,7 @@ angular.module('myApp', [])
   		type: 'doughnut',
     	data: data3,
 		});
-		
+
 		//Assets Breakdown
 		var data4 = {
     		labels: ["Inventory", "Cash & Equivalent", "Short-Term Inv.", "Goodwill", "Intangible Assets", "Other", "PropPlant&Equip" ],
@@ -271,14 +318,14 @@ angular.module('myApp', [])
 		
 		//Expense Breakdown
 		var data6 = {
-    		labels: ["Capital Expenditures", "Research and Dev.", "Selling & Admin"],
+    		labels: ["Cap Ex", "Research and Dev.", "Selling & Admin"],
    			datasets: [ {
             label: "Expense Breakdown",
             backgroundColor: [
                 '#a0a5ff',
                 '#507055',
                 '#f28008',
-              
+        
                
             ],
             borderColor: [
