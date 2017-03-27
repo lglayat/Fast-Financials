@@ -76,7 +76,7 @@ angular.module('myApp', [])
 	/////////////////////////////////////////////
 	
 	
-	var url1 = "http://edgaronline.api.mashery.com/v2/corefinancials/ann?primarysymbols=" + input + "&appkey=du46n6pcze7x7a5jamvb9kyj";
+	var url1 = "http://edgaronline.api.mashery.com/v2/corefinancials/ann?primarysymbols=" + input + "&appkey=ngrfwrjwnw8aevvaxmb4dmcv";
 	
 	$.ajax({
 		url: url1,
